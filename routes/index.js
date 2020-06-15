@@ -7,7 +7,7 @@ const {
   deleteOne: deleteUser,
 } = require("../controllers/user");
 const { register, login } = require("../controllers/auth");
-const { auth } = require("../middleware/auth");
+const { auth, previllegeCheck } = require("../middleware/auth");
 const { upload } = require("../middleware/uploader");
 const {
   readEpisodes: findEpisodes,
@@ -41,35 +41,35 @@ router.post("/register", register);
 router.post("/login", login);
 
 //User Routes
-router.get("/users", auth, findUsers);
-router.get("/user/:id", auth, findUser);
-router.delete("/user/:id", auth, deleteUser);
+router.get("/users", auth, previllegeCheck, findUsers);
+router.get("/user/:id", auth, previllegeCheck, findUser);
+router.delete("/user/:id", auth, previllegeCheck, deleteUser);
 
 //Category Routes
 router.get("/categories", findCategory);
-router.post("/category", auth, addCategory);
-router.patch("/category/:id", auth, editCategory);
-router.delete("/category/:id", auth, deleteCategory);
+router.post("/category", auth, previllegeCheck, addCategory);
+router.patch("/category/:id", auth, previllegeCheck, editCategory);
+router.delete("/category/:id", auth, previllegeCheck, deleteCategory);
 
 //Film Routes
 router.get("/films", findFilms);
 router.get("/film/:id", findFilm);
 router.get("/film/:id/episodes", findEpisodes);
 router.get("/episode/:id", findEpisode);
-router.post("/film", auth, addFilm);
-router.patch("/film/:id", auth, editFilm);
-router.delete("/film/:id", auth, deleteFilm);
+router.post("/film", auth, previllegeCheck, addFilm);
+router.patch("/film/:id", auth, previllegeCheck, editFilm);
+router.delete("/film/:id", auth, previllegeCheck, deleteFilm);
 
 //Transactions Routes
-router.get("/transactions", auth, findTransactions);
-router.post("/transaction", auth, upload, addTransaction);
-router.patch("/transaction/:id", auth, editTransaction);
-router.delete("/transaction/:id", auth, deleteTransaction);
+router.get("/transactions", auth, previllegeCheck, findTransactions);
+router.post("/transaction", auth, previllegeCheck, upload, addTransaction);
+router.patch("/transaction/:id", auth, previllegeCheck, editTransaction);
+router.delete("/transaction/:id", auth, previllegeCheck, deleteTransaction);
 
 //Episode Routes
-router.post("/episode", auth, addEpisode);
-router.patch("/episode/:id", auth, editEpisode);
-router.delete("/episode/:id", auth, deleteEpisode);
+router.post("/episode", auth, previllegeCheck, addEpisode);
+router.patch("/episode/:id", auth, previllegeCheck, editEpisode);
+router.delete("/episode/:id", auth, previllegeCheck, deleteEpisode);
 
 //Other routes
 router.get("*", (req, res) => {
